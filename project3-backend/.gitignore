@@ -1,0 +1,72 @@
+# ===============================
+# Java / Spring Boot
+# ===============================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven / Gradle
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar   # keep the Maven wrapper JAR committed
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDEs
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### Eclipse / STS ###
+.classpath
+.project
+.settings/
+.apt_generated/
+.springBeans
+.sts4-cache/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+# Logs & temp files
+logs/
+*.log
+*.tmp
+hs_err_pid*
+replay_pid*
+heapdump*.hprof
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Docker & env
+docker-compose.override.yml
+.env
+*.pid
+
+# Local overrides
+application-local.properties
+application-local.yml
+
+# Optional: ignore HELP.md if you don't want it in the repo
+# HELP.md
+
+# Test output
+surefire-reports/
+test-output/
+
+# Node / frontend (if you add one later)
+node_modules/
+dist/
