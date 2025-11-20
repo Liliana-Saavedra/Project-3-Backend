@@ -27,6 +27,7 @@ public class User extends BaseEntity {
     private OAuthProvider provider;
 
     private String providerId;    // id from OAuth provider
+    private String passwordHash;
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
