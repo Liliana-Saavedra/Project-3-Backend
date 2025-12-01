@@ -1,4 +1,4 @@
-package controllers;
+package com.example.project3_backend.controllers;
 
 import com.example.project3_backend.model.User;
 import com.example.project3_backend.model.enums.OAuthProvider;
