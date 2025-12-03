@@ -1,6 +1,7 @@
 package com.example.project3_backend.model;
 
 import com.example.project3_backend.model.enums.NotificationType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import java.time.Instant;
 public class Notification extends BaseEntity {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonIgnore
     private User user;
 
     @Enumerated(EnumType.STRING)

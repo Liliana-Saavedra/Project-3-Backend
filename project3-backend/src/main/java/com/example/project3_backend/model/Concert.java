@@ -2,6 +2,7 @@ package com.example.project3_backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class Concert extends BaseEntity {
 
     private String ticketUrl;
 
+    @JsonIgnore
     @Builder.Default
     @OneToMany(mappedBy = "concert", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos = new ArrayList<>();
