@@ -1,5 +1,7 @@
 package com.example.project3_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,9 +12,15 @@ import java.util.Set;
 
 @Entity
 @Table(name = "setlists")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Setlist extends BaseEntity {
 
+    @JsonIgnore
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "concert_id", nullable = false, unique = true)
     private Concert concert;
