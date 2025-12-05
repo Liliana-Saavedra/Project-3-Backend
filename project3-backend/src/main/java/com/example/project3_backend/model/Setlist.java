@@ -21,6 +21,11 @@ import java.util.Set;
 public class Setlist extends BaseEntity {
 
     @JsonIgnore
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @JsonIgnore
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "concert_id", nullable = false, unique = true)
     private Concert concert;

@@ -52,6 +52,7 @@ public class SetlistController {
             return ResponseEntity.notFound().build();
         }
         Setlist setlist = Setlist.builder()
+                .user(concert.getUser())
                 .concert(concert)
                 .songs(request.getSongs() != null ? request.getSongs() : new ArrayList<>())
                 .favoriteSongs(request.getFavoriteSongs() != null ? request.getFavoriteSongs() : new HashSet<>())
