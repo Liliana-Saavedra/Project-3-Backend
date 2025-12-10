@@ -1,8 +1,9 @@
 package com.example.project3_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,9 +13,15 @@ import java.util.List;
 @Table(name = "concerts", indexes = {
         @Index(name = "ix_concerts_artist_date", columnList = "artist,dateTime")
 })
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Concert extends BaseEntity {
 
+    @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User user;
 
@@ -41,6 +48,7 @@ public class Concert extends BaseEntity {
     @OneToMany(mappedBy = "concert", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos = new ArrayList<>();
 
+    @JsonIgnore
     @OneToOne(mappedBy = "concert", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Setlist setlist;
 }
