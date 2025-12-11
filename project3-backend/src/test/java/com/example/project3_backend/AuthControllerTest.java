@@ -57,9 +57,9 @@ public class AuthControllerTest{
         mvc.perform(MockMvcRequestBuilders.post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
-                        .andExpect(status().isOk())
-                        .andExpect(jsonPath("$.email").value("test@gmail.com"))
-                        .andExpect(jsonPath("$.username").value("test"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value("test@gmail.com"))
+                .andExpect(jsonPath("$.username").value("test"));
     }
     @Test
     void loginTest() throws Exception {
