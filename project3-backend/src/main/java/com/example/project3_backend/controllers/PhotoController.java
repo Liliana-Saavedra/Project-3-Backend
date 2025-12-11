@@ -1,13 +1,10 @@
-
 package com.example.project3_backend.controllers;
 
 import com.example.project3_backend.model.Concert;
 import com.example.project3_backend.model.Photo;
-import com.example.project3_backend.model.Setlist;
 import com.example.project3_backend.model.User;
 import com.example.project3_backend.repository.ConcertRepository;
 import com.example.project3_backend.repository.PhotoRepository;
-import com.example.project3_backend.repository.SetlistRepository;
 import com.example.project3_backend.repository.UserRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,16 +24,13 @@ public class PhotoController {
     private final PhotoRepository photoRepository;
     private final UserRepository userRepository;
     private final ConcertRepository concertRepository;
-    private final SetlistRepository setlistRepository;
 
     public PhotoController(PhotoRepository photoRepository,
             UserRepository userRepository,
-            ConcertRepository concertRepository,
-            SetlistRepository setlistRepository) {
+            ConcertRepository concertRepository) {
         this.photoRepository = photoRepository;
         this.userRepository = userRepository;
         this.concertRepository = concertRepository;
-        this.setlistRepository = setlistRepository;
     }
 
     @GetMapping("/{id}")
@@ -70,9 +64,6 @@ public class PhotoController {
         if (request.getConcertId() == null) {
             return ResponseEntity.badRequest().body("concertId is required");
         }
-        if (request.getSetlistId() == null) {
-            return ResponseEntity.badRequest().body("setlistId is required");
-        }
         if (request.getUrl() == null || request.getUrl().isBlank()) {
             return ResponseEntity.badRequest().body("url is required");
         }
@@ -89,16 +80,9 @@ public class PhotoController {
                     .body("Concert with id " + request.getConcertId() + " not found");
         }
 
-        Setlist setlist = setlistRepository.findById(request.getSetlistId()).orElse(null);
-        if (setlist == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Setlist with id " + request.getSetlistId() + " not found");
-        }
-
         Photo photo = Photo.builder()
                 .user(user)
                 .concert(concert)
-                .setlist(setlist)
                 .url(request.getUrl())
                 .caption(request.getCaption())
                 .takenAt(request.getTakenAt())
@@ -129,14 +113,6 @@ public class PhotoController {
                         }
                         photo.setConcert(concert);
                     }
-                    if (request.getSetlistId() != null) {
-                        Setlist setlist = setlistRepository.findById(request.getSetlistId()).orElse(null);
-                        if (setlist == null) {
-                            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                    .body("Setlist not found");
-                        }
-                        photo.setSetlist(setlist);
-                    }
                     return ResponseEntity.ok(photoRepository.save(photo));
                 })
                 .orElse(ResponseEntity.notFound().build());
@@ -157,7 +133,6 @@ public class PhotoController {
     public static class PhotoReq {
         private UUID userId;
         private UUID concertId;
-        private UUID setlistId;
         private String url;
         private String caption;
         private Instant takenAt;
