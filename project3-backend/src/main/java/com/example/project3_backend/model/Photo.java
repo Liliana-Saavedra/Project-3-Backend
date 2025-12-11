@@ -27,6 +27,11 @@ public class Photo extends BaseEntity {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Concert concert;
 
+    @JsonIgnore
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "setlist_id")
+    private Setlist setlist;
+
     @Column(nullable = false)
     private String url; // e.g., Supabase/Cloudinary URL
 
