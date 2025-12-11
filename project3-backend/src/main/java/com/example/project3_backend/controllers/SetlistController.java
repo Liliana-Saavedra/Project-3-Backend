@@ -26,17 +26,19 @@ public class SetlistController {
         this.concertRepository = concertRepository;
 
     }
+
     @GetMapping
     public ResponseEntity<List<Setlist>> getAllSetlists() {
         return ResponseEntity.ok(setlistRepository.findAll());
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Setlist> getSetlistById(@PathVariable Long id)
-    {
+    public ResponseEntity<Setlist> getSetlistById(@PathVariable UUID id) {
         return setlistRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
     @GetMapping("/concert/{concertId}")
     public ResponseEntity<Setlist> getSetlistbyConcertId(@PathVariable UUID concertId) {
         List<Setlist> list = setlistRepository.findByConcertId(concertId);
@@ -45,6 +47,7 @@ public class SetlistController {
         }
         return ResponseEntity.ok(list.get(0));
     }
+
     @PostMapping
     public ResponseEntity<?> createSetlist(@RequestBody @NonNull SetlistReq request) {
         Concert concert = concertRepository.findById(request.getConcertId()).orElse(null);
@@ -52,6 +55,7 @@ public class SetlistController {
             return ResponseEntity.notFound().build();
         }
         Setlist setlist = Setlist.builder()
+                .user(concert.getUser())
                 .concert(concert)
                 .songs(request.getSongs() != null ? request.getSongs() : new ArrayList<>())
                 .favoriteSongs(request.getFavoriteSongs() != null ? request.getFavoriteSongs() : new HashSet<>())
@@ -60,8 +64,10 @@ public class SetlistController {
         return ResponseEntity.ok(saved);
 
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateSetlist(@PathVariable @org.springframework.lang.NonNull Long id, @RequestBody SetlistReq request) {
+    public ResponseEntity<?> updateSetlist(@PathVariable @org.springframework.lang.NonNull UUID id,
+            @RequestBody SetlistReq request) {
         return setlistRepository.findById(id)
                 .map(setlist -> {
 
@@ -77,8 +83,9 @@ public class SetlistController {
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSetlist(@PathVariable @org.springframework.lang.NonNull Long id) {
+    public ResponseEntity<Void> deleteSetlist(@PathVariable @org.springframework.lang.NonNull UUID id) {
         if (setlistRepository.existsById(id)) {
             setlistRepository.deleteById(id);
             return ResponseEntity.noContent().build();

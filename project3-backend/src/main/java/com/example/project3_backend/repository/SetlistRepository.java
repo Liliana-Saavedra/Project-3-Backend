@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.UUID;
 
-public interface SetlistRepository extends JpaRepository<Setlist, Long> {
+public interface SetlistRepository extends JpaRepository<Setlist, UUID> {
     List<Setlist> findByConcertId(UUID concertId);
 }
 

@@ -1,6 +1,8 @@
 package com.example.project3_backend.repository;
 
 import com.example.project3_backend.model.Photo;
+import com.example.project3_backend.model.Setlist;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,5 +13,4 @@ public interface PhotoRepository extends JpaRepository<Photo, UUID> {
 
     List<Photo> findByConcertId(UUID concertId);
 
-    List<Photo> findByUserIdAndConcertId(UUID userId, UUID concertId);
 }
