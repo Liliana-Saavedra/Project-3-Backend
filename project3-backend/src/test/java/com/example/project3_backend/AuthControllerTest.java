@@ -20,6 +20,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 
 //https://www.baeldung.com/spring-boot-testing
 
+import java.util.Optional;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthController.class)
@@ -59,5 +61,25 @@ public class AuthControllerTest{
                         .andExpect(jsonPath("$.email").value("test@gmail.com"))
                         .andExpect(jsonPath("$.username").value("test"));
     }
+    @Test
+    void loginTest() throws Exception {
+        AuthController.LoginReq req = new AuthController.LoginReq();
+        req.setEmail("test@gmail.com");
+        req.setPassword("password");
+
+        User savedUser = User.builder()
+                .email("test@gmail.com").passwordHash("hashedPassword").provider(OAuthProvider.LOCAL).build();
+        Mockito.when(userRepository.findByEmail("test@gmail.com"))
+                .thenReturn(Optional.of(savedUser));
+        Mockito.when(bCryptPasswordEncoder.matches( "password","hashedPassword"))
+                .thenReturn(true);
+        mvc.perform(MockMvcRequestBuilders.post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value("test@gmail.com"));
+
     }
+
+}
 
